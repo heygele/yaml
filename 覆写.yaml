@@ -1,43 +1,64 @@
-default-nameserver:
-- system
-- 223.6.6.6
-- 8.8.8.8
-direct-nameserver-follow-policy: false
-enable: true
-enhanced-mode: fake-ip
-fake-ip-filter:
-- '*.lan'
-- '*.local'
-- '*.arpa'
-- time.*.com
-- ntp.*.com
-- time.*.com
-- +.market.xiaomi.com
-- localhost.ptlogin2.qq.com
-- '*.msftncsi.com'
-- www.msftconnecttest.com
-fake-ip-filter-mode: blacklist
-fake-ip-range: 198.18.0.1/16
-fallback-filter:
-  domain:
-  - +.google.com
-  - +.facebook.com
-  - +.youtube.com
-  geoip: true
-  geoip-code: CN
-  ipcidr:
-  - 240.0.0.0/4
-  - 0.0.0.0/32
-listen: :53
-nameserver:
-- 8.8.8.8
-- https://doh.pub/dns-query
-- https://dns.alidns.com/dns-query
-prefer-h3: false
-proxy-server-nameserver:
-- https://doh.pub/dns-query
-- https://dns.alidns.com/dns-query
-- tls://223.5.5.5
-respect-rules: false
-use-hosts: false
-use-system-hosts: false
+name: 'DNS: Fake-IP 覆写'
+desc: |-
+  Stash DNS 覆写配置
+  启用 fake-ip 模式
+  使用国内 DoH / DoT 解析代理节点域名
+  排除局域网、时间同步、腾讯登录、微软联网检测等域名
+openUrl: ''
+author: |-
+  Custom
+homepage: ''
+icon: ''
+category: 'DNS'
+date: '2026-05-16'
+version: '1.0.0'
+
+dns:
+  enable: true
+  listen: ':53'
+  enhanced-mode: 'fake-ip'
+  fake-ip-range: '198.18.0.1/16'
+  fake-ip-filter-mode: 'blacklist'
+  prefer-h3: false
+  respect-rules: false
+  use-hosts: false
+  use-system-hosts: false
+
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.arpa'
+    - 'time.*.com'
+    - 'ntp.*.com'
+    - '+.market.xiaomi.com'
+    - 'localhost.ptlogin2.qq.com'
+    - '*.msftncsi.com'
+    - 'www.msftconnecttest.com'
+
+  default-nameserver:
+    - 'system'
+    - '223.6.6.6'
+    - '8.8.8.8'
+
+  nameserver:
+    - '8.8.8.8'
+    - 'https://doh.pub/dns-query'
+    - 'https://dns.alidns.com/dns-query'
+
+  direct-nameserver-follow-policy: false
+
+  fallback-filter:
+    geoip: true
+    geoip-code: 'CN'
+    ipcidr:
+      - '240.0.0.0/4'
+      - '0.0.0.0/32'
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+
+  proxy-server-nameserver:
+    - 'https://doh.pub/dns-query'
+    - 'https://dns.alidns.com/dns-query'
+    - 'tls://223.5.5.5'
